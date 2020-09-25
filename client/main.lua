@@ -129,17 +129,17 @@ Citizen.CreateThread(function()
             if (GetDistanceBetweenCoords(playerPosition, Config.Weedshop.player.SellLocation.x, Config.Weedshop.player.SellLocation.y, Config.Weedshop.player.SellLocation.z, true) < 1.5) then
                 DrawText3D(Config.Weedshop.player.SellLocation.x, Config.Weedshop.player.SellLocation.y, Config.Weedshop.player.SellLocation.z+0.15, '~g~E~w~ - Sell weed')
                 if IsControlJustReleased(0, Keys["E"]) then
-                    ESX.TriggerServerCallback('esx_weedshop:callback:checkPlayerWeed', function(cb)
-                        if cb then
-                            TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-                            exports['progressBars']:startUI(2000, "Selling weed...")
-                            Citizen.Wait(2000)
-                            TriggerServerEvent('esx_weedshop:server:sellWeed')
-                            ClearPedTasksImmediately(playerPed)
-                        else
-                            ESX.ShowNotification('You do not have any kind of weed on you...')
-                        end
-                    end)
+                    if Config.useLicense then
+                        ESX.TriggerServerCallback('esx_weedshop:callback:hasWeedLicense', function(cb)
+                            if cb then
+                                sellWeed()
+                            else
+                                ESX.ShowNotification('You do not have a weed license to sell your weed...')
+                            end
+                        end)
+                    else
+                        sellWeed()
+                    end
                 end
             elseif (GetDistanceBetweenCoords(playerPosition, Config.Weedshop.player.SellLocation.x, Config.Weedshop.player.SellLocation.y, Config.Weedshop.player.SellLocation.z, true) < 4) then
                 DrawText3D(Config.Weedshop.player.SellLocation.x, Config.Weedshop.player.SellLocation.y, Config.Weedshop.player.SellLocation.z+0.15, 'Coffeeshop backdoor')
@@ -147,6 +147,20 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+sellWeed = function()
+    ESX.TriggerServerCallback('esx_weedshop:callback:checkPlayerWeed', function(cb)
+        if cb then
+            TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+            exports['progressBars']:startUI(2000, "Selling weed...")
+            Citizen.Wait(2000)
+            TriggerServerEvent('esx_weedshop:server:sellWeed')
+            ClearPedTasksImmediately(playerPed)
+        else
+            ESX.ShowNotification('You do not have any kind of weed on you...')
+        end
+    end)
+end
 
 Citizen.CreateThread(function()
     local blip = AddBlipForCoord(Config.Weedshop.blip.x, Config.Weedshop.blip.y, Config.Weedshop.blip.z)

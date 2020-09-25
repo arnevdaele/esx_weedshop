@@ -20,6 +20,16 @@ ESX.RegisterServerCallback('esx_weedshop:callback:getRegisterAmount', function(s
     end)
 end)
 
+ESX.RegisterServerCallback('esx_weedshop:callback:hasWeedLicense', function(source, cb)
+    local sourcePlayer = ESX.GetPlayerFromId(source)
+
+    if sourcePlayer.getInventoryItem('weedlicense').count > 0 then
+        cb(true)
+    else
+        cb(false)
+    end
+end)
+
 ESX.RegisterServerCallback('esx_weedshop:callback:getPlayerCashMoney', function(source, cb)
     local sourcePlayer = ESX.GetPlayerFromId(source)
     local amount = nil

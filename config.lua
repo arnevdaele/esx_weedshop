@@ -5,6 +5,7 @@
 
 Config = {}
 
+Config.useLicense = true -- USE ITEM 'weedlicense' AS REQUIRED ITEM TO SELL WEED
 Config.usingWeight = true
 Config.WeedItem = "weed"
 Config.WeedPrice = 3
