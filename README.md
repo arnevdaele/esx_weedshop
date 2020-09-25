@@ -19,6 +19,8 @@ Import the .sql file in your database. Drag and drop the resource in your ESX fo
 
 **CONFIGURATION**
 
+`Config.useLicense` = true -> enable/disable requirement of item 'weedlicense' to sell weed.
+
 `Config.WeedItem = "weed"` -> the item name of weed in your server, mostly just 'weed'.
 
 `Config.WeedPrice = 3` -> price per weed, equals to amount player has times 3.
