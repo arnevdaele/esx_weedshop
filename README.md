@@ -1,6 +1,7 @@
 # ESX WEEDSHOP
 Author: Dividerz -> https://forum.cfx.re/u/dividerz/summary
-Discord for support: Arne#7777
+
+Support: https://discord.gg/WxZ83u3 - New Discord Server for support
 
 **DEPENDENCIES**
 

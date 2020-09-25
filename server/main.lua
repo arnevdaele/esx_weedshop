@@ -24,9 +24,9 @@ ESX.RegisterServerCallback('esx_weedshop:callback:getPlayerCashMoney', function(
     local sourcePlayer = ESX.GetPlayerFromId(source)
     local amount = nil
     if Config.usingWeight then
-        amount = sourcePlayer.getAccount('money')
+        local amount = sourcePlayer.getAccount('money')
     else
-        amount = sourcePlayer.getMoney()
+        local amount = sourcePlayer.getMoney()
     end
 
     if amount ~= nil then
