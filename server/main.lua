@@ -22,11 +22,11 @@ end)
 
 ESX.RegisterServerCallback('esx_weedshop:callback:getPlayerCashMoney', function(source, cb)
     local sourcePlayer = ESX.GetPlayerFromId(source)
-    
+    local amount = nil
     if Config.usingWeight then
-        local amount = sourcePlayer.getMoney()
+        amount = sourcePlayer.getAccount('money')
     else
-        local amount = sourcePlayer.getAccount('money').money
+        amount = sourcePlayer.getMoney()
     end
 
     if amount ~= nil then
@@ -98,10 +98,12 @@ AddEventHandler('esx_weedshop:server:buyJoint', function(price)
         end
     else
         local sourceItem = sourcePlayer.getInventoryItem('joint')
-        if sourceItem.limit ~= -1 and (sourceItem.count + 1) > sourceItem.limit then
+		amount = 1 
+        if sourceItem.limit ~= -1 and (sourcePlayer.getInventoryItem('joint').count + 1) > sourceItem.limit then
             sourcePlayer.showNotification("You can't carry any more joints...")
         else
             sourcePlayer.addInventoryItem('joint', amount)
+			sourcePlayer.removeMoney(price)
                 -- DELETE ONE JOINT FROM STORAGE
             MySQL.Async.fetchAll('SELECT * FROM weedshop WHERE type = @type', { ['@type'] = 'joint' }, function(result)
                 MySQL.Async.execute('UPDATE weedshop SET amount = @amount WHERE type = @type', { ['@amount'] = result[1].amount - 1, ['@type'] = 'joint' })
